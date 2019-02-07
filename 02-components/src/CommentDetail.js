@@ -7,7 +7,7 @@ const CommentDetail = props => {
                 <img src={props.avatar} alt="avatar" />
             </a>
             <div className="content">
-                <a className="author">
+                <a href="/#" className="author">
                 {props.author}
                 </a>
                 <div className="metadata">
