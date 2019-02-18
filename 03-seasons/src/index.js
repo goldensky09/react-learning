@@ -26,11 +26,9 @@ class App extends React.Component {
     }
     render(){
         return (
-            <div>
-                <pre>Latitude: {this.state.lat}</pre>
-                <pre>Longitude: {this.state.lng}</pre>
-                <pre>Error: {this.state.errorMessage}</pre>
-            </div>
+            if(this.state.errorMessage && ) {
+
+            }
         );
     }
 }
