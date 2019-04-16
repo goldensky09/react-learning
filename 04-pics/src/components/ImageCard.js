@@ -1,7 +1,7 @@
 import React from "react";
 
 class ImageCard extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             spans: 0
@@ -10,25 +10,31 @@ class ImageCard extends React.Component {
         this.imageRef = React.createRef();
     }
     componentDidMount() {
-        this.imageRef.current.addEventListener("load", this.setSpans);
+        // this.imageRef.current.addEventListener("load", this.setSpans);
     }
-    setSpans = (event) => {
-        const height = this.imageRef.current.clientHeight;
-
-        const spans = Math.ceil(height / 10);
-
-        this.setState({spans})
-    }
-    render(){
-        const {alt_description , urls} = this.props.image;
+    render() {
+        const { alt_description, description, urls } = this.props.image;
         return (
-            <div style={{gridRowEnd: `span ${this.state.spans}`}}>
-                <img 
+            <label className="image-box">
+                <input type="radio" name="lightbox" />
+                <img
+                    className="image-thumb"
                     ref={this.imageRef}
-                    alt={alt_description} 
-                    src={urls.regular}
+                    alt={alt_description}
+                    src={urls.thumb}
+                />
+                <div className="image-lightbox">
+                    <img
+                        className="image-el"
+                        alt={alt_description}
+                        src={urls.full}
                     />
-            </div>
+                    <h2 className="image-desc">
+                        {description}
+                    </h2>
+                </div>
+                
+            </label>
         )
     }
 }

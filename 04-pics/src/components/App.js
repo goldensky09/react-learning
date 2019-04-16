@@ -4,18 +4,17 @@ import unsplash from "../api/unsplash"
 import SearchBar from "./SearchBar";
 import ImageList from "./ImageList";
 
-const initialState = {
-    searchTerm: null,
-    images: [],
-    nextPage: 1,
-    pageLimit: 0
-};
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
-        this.state = initialState;
+        this.state = {
+            searchTerm: null,
+            images: [],
+            nextPage: 1,
+            pageLimit: 0
+        };
     }
     isBottom(el) {
         return el.getBoundingClientRect().bottom <= window.innerHeight && this.state.pageLimit >= this.state.nextPage;
@@ -36,8 +35,6 @@ class App extends React.Component {
         }
     };
     onSearchSubmit(term) {
-        this.setState(initialState);
-        this.setState({ searchTerm: term });
         this.loadItems({ term: term });
     }
     loadItems({ nextPage = 1, term = null }) {
@@ -52,10 +49,16 @@ class App extends React.Component {
             }
         }).then((response) => {
             this.setState((prevState) => {
-                prevState.images.push(...response.data.results);
-                prevState.nextPage = nextPage+1;
-                prevState.pageLimit = response.data.total_pages
-                return prevState;
+                let newState = {...prevState};
+                if(nextPage === 1) {
+                    newState.searchTerm = term;
+                    newState.images = response.data.results;
+                } else {
+                    newState.images.push(...response.data.results);
+                } 
+                newState.nextPage = nextPage+1;
+                newState.pageLimit = response.data.total_pages
+                return newState;
             });
             this.inProgress = false;
         }).catch((error) => {
